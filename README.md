@@ -6,4 +6,4 @@
 Сохранение будет происходить в разные директории, в зависимости от номера страницы. Имя будет иметь следующий формат 1-2 (где 1 - номер страницы, а 2 - номер изображения на странице)
 Поправка, используя ссылку https://wallpaperscraft.ru/catalog/anime/1920x1080/page2 можно сразу искать нужное разрешение
 Ссылка на страницу хранится в данной структуре  <a class="wallpapers__link" href="/download/animeshka_kot_tolpa_121498/1920x1080">
-Ссылка для сохранения изображения находится в структуре <img class="wallpaper__image" src="https://images.wallpaperscraft.ru/image/single/animeshka_kot_tolpa_121498_1920x1080.jpg" alt="1920x1080 Обои анимешка, кот, толпа, арт"> 
+Ссылка для сохранения изображения находится в структуре <img class="wallpaper__image" src="https://images.wallpaperscraft.ru/image/single/animeshka_kot_tolpa_121498_1920x1080.jpg" alt="1920x1080 Обои анимешка, кот, толпа, арт">.
