@@ -8,7 +8,7 @@ from fake_useragent import UserAgent
 mainURL = 'https://wallpaperscraft.ru'
 pageLink = 'https://wallpaperscraft.ru/catalog/anime/1920x1080/page1'
 
-def getURLsFromOnePage(page): #Данная функция принимает url страницы, и находит все url, которые ведут к страницам изображений, возвращает массив добавочных URL
+def getURLsFromOnePage(page): #gets shorts url from page
     response = requests.get(page, headers={'User-Agent' : UserAgent().chrome})
     html = response.content
     soup = BeautifulSoup(html,'html.parser')
@@ -39,14 +39,23 @@ def clearingURL(elmentOfArray): #delete ', [ and ] from element of URL's array
     return string
 
 
-def saveImage (link,name): # saving image in current folder 
+def saveImage (link,name): # saving image in current folder with ur name
     imgData = requests.get(link).content
     with open (name + '.jpg','wb') as handler:
         handler.write(imgData)
 
-listOfShortURLs = getURLsFromOnePage(pageLink)
-listOfFullURLs = createFullURLs(listOfShortURLs)
-string = clearingURL(listOfFullURLs[:1])
-imgURL = getDownloadURL(string)
-saveImage(imgURL, 'kek')
 
+
+def saveAllImagesFromOnePage (page):
+    arrayOfShortURLs = getURLsFromOnePage(page)
+    arrayOfFullURLs = createFullURLs(arrayOfShortURLs)
+    clearURL = ''
+    downloadURL = ''
+    for i in range(0,len(arrayOfFullURLs)):
+        clearURL = clearingURL(arrayOfFullURLs[i])
+        print (clearURL)
+        downloadURL = getDownloadURL(clearURL)
+        saveImage(downloadURL,str(i+1))
+
+
+saveAllImagesFromOnePage(pageLink)
