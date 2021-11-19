@@ -1,12 +1,15 @@
 #imports
 import os
+import time
 import requests
+import urllib.request
+from time import sleep
 from bs4 import BeautifulSoup
 from fake_useragent import UserAgent
 
 #Constants and variables
 mainURL = 'https://wallpaperscraft.ru'
-pageLink = 'https://wallpaperscraft.ru/catalog/anime/1920x1080/page1'
+pageLink = 'https://wallpaperscraft.ru/catalog/anime/1920x1080/page'
 
 def getURLsFromOnePage(page): #gets shorts url from page
     response = requests.get(page, headers={'User-Agent' : UserAgent().chrome})
@@ -40,22 +43,36 @@ def clearingURL(elmentOfArray): #delete ', [ and ] from element of URL's array
 
 
 def saveImage (link,name): # saving image in current folder with ur name
-    imgData = requests.get(link).content
+    imgData = requests.get(link, headers={'User-Agent' : UserAgent().chrome}).content
     with open (name + '.jpg','wb') as handler:
         handler.write(imgData)
 
 
 
-def saveAllImagesFromOnePage (page):
+def saveAllImagesFromOnePage (page): #function that contains all functions
     arrayOfShortURLs = getURLsFromOnePage(page)
     arrayOfFullURLs = createFullURLs(arrayOfShortURLs)
-    clearURL = ''
-    downloadURL = ''
     for i in range(0,len(arrayOfFullURLs)):
-        clearURL = clearingURL(arrayOfFullURLs[i])
-        print (clearURL)
-        downloadURL = getDownloadURL(clearURL)
-        saveImage(downloadURL,str(i+1))
+        try:
+            clearURL = clearingURL(arrayOfFullURLs[i])
+            downloadURL = getDownloadURL(clearURL)
+            saveImage(downloadURL,str(i+1))
+            print ('image ' + str(i+1)+ ' downloaded successfully!')
+        except:
+            print('image ' + downloadURL + ' not downloaded!')
+            continue
 
+def saveAllImgInCategory (link):
+    counter = 1
+    while True:
+        try:
+            os.chdir("D:\PythonImgDownload")
+            os.mkdir(str(counter))
+            os.chdir("D:\PythonImgDownload"+'\\'+str(counter))
+            saveAllImagesFromOnePage(link + str(counter))
+            counter += 1
+        except:
+            print ("All done")
+            os.rmdir("D:\PythonImgDownload"+'\\'+str(counter))
 
-saveAllImagesFromOnePage(pageLink)
+saveAllImgInCategory(pageLink)
